@@ -5,6 +5,7 @@ import java.net.Socket;
 
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.DataLine;
+import javax.sound.sampled.Line;
 import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.Mixer;
 import javax.sound.sampled.TargetDataLine;
@@ -26,13 +27,22 @@ public class Capture extends Thread {
 		DataLine.Info info = new DataLine.Info(TargetDataLine.class, Starter.getFormat());
 		
 		System.out.println();
-		System.out.println("Possible mixer (choose by netering their index number)");
+		System.out.println("Possible mixer (choose by entering their index number)");
 		
 		Mixer.Info[] availMixer = AudioSystem.getMixerInfo();
 		int c = 0;
 		
 		for(Mixer.Info mi : availMixer) {
 			System.out.println("{" + c + "} - " + mi);
+			System.out.println("Source lines:");
+			for(Line.Info li : AudioSystem.getMixer(mi).getSourceLineInfo()) {
+				System.out.println("\t"+li);
+			}
+			System.out.println("Target lines:");
+			for(Line.Info li : AudioSystem.getMixer(mi).getTargetLineInfo()) {
+				System.out.println("\t"+li);
+			}
+			System.out.println();
 			c++;
 		}
 		c = Starter.readInt();
@@ -43,9 +53,8 @@ public class Capture extends Thread {
 		}
 
 		try {
-		    //line = (TargetDataLine) AudioSystem.getLine(info);
 			line = (TargetDataLine) AudioSystem.getMixer(availMixer[c]).getLine(info);
-		    line.open(Starter.getFormat());
+			line.open(Starter.getFormat());
 		} catch (LineUnavailableException e) {
 			if(Starter.verbose) {
 				e.printStackTrace();
