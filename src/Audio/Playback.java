@@ -115,11 +115,10 @@ public class Playback extends Thread {
 	    
 		try {
 			int count;
-            while ((count = audioInputStream.read(
-                buffer, 0, buffer.length)) != -1) {
-              if (count > 0) {
-            	  sourceDataLine.write(buffer, 0, count);
-              }
+            while ((count = audioInputStream.read(buffer, 0, buffer.length)) != -1) {
+            	if (count > 0) {
+            		sourceDataLine.write(buffer, 0, count);
+            	}
             }
             sourceDataLine.drain();
             sourceDataLine.close();

@@ -67,6 +67,14 @@ public class Capture extends Thread {
 
 		while (!stopped) {
 		   numBytesRead =  line.read(data, 0, data.length);
+		   
+		   for(int i=0; i<numBytesRead; i+=1) {
+			   for(int j=0; j<=Integer.parseInt(Byte.toString(data[i])); j++) {
+				   System.out.print(".");
+			   }
+			   System.out.println();
+		   }
+		   
 		   try {
 			   outputStream.write(data, 0, numBytesRead);
 		   } catch (IOException e) {
