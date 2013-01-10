@@ -41,16 +41,22 @@ public class Capture extends Thread {
 			System.exit(-1);
 		}
 		
-		try {
-			initConnection(ip, port);
-		} catch (IOException e) {
-			if(Starter.verbose) {
-				e.printStackTrace();
-			} else {
-				System.out.println(Starter.error_non_verbose_msg);
+		boolean connected = false;
+		System.out.println("Connecting");
+		while(!connected) {
+			try {
+				initConnection(ip, port);
+				connected = true;
+			} catch (IOException e) {
+				System.out.print(".");
 			}
-			System.exit(-1);
+			try {
+				Thread.sleep(1000);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
 		}
+		System.out.println();
 		
 		System.out.println("Initialized capturing");
 	}

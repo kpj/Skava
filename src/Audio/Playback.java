@@ -30,9 +30,6 @@ public class Playback extends Thread {
 	
 	
 	public Playback(int port) {
-	
-		// Wup Wup
-		
 		try {
 			servSock = new ServerSocket(port);
 			

@@ -10,7 +10,7 @@ import Audio.Playback;
 
 public class Starter {
 	
-	public static final boolean verbose = false;
+	public static final boolean verbose = true;
 	public static final String error_non_verbose_msg = "Something bad happened [activate verbose-mode to get more information]";
 	
 	public static void main(String[] args) {
@@ -32,9 +32,7 @@ public class Starter {
 		
 		Playback playb = new Playback(Integer.parseInt(args[2]));
 		playb.start();
-		
-		waitForEnter("wait for other server to start");
-		
+				
 		Capture cap = new Capture(args[0], Integer.parseInt(args[1]));
 		cap.start();
 		
