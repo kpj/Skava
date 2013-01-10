@@ -59,6 +59,19 @@ public class Starter {
 		}
 	}
 	
+	public static int readInt() {
+		DataInputStream in = new DataInputStream(System.in);
+		String i = "";
+		
+		try {
+			i = in.readLine();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
+		return Integer.parseInt(i);
+	}
+	
 	public static AudioFormat getFormat() {
 		float sampleRate = 8000;
 	    int sampleSizeInBits = 8;

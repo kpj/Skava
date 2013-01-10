@@ -6,6 +6,7 @@ import java.net.Socket;
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.DataLine;
 import javax.sound.sampled.LineUnavailableException;
+import javax.sound.sampled.Mixer;
 import javax.sound.sampled.TargetDataLine;
 
 import Startup.Starter;
@@ -24,13 +25,26 @@ public class Capture extends Thread {
 		line = null;
 		DataLine.Info info = new DataLine.Info(TargetDataLine.class, Starter.getFormat());
 		
+		System.out.println();
+		System.out.println("Possible mixer (choose by netering their index number)");
+		
+		Mixer.Info[] availMixer = AudioSystem.getMixerInfo();
+		int c = 0;
+		
+		for(Mixer.Info mi : availMixer) {
+			System.out.println("{" + c + "} - " + mi);
+			c++;
+		}
+		c = Starter.readInt();
+		
 		if (!AudioSystem.isLineSupported(info)) {
 		    System.out.println("This line is not supported");
 		    System.exit(-1);
 		}
 
 		try {
-		    line = (TargetDataLine) AudioSystem.getLine(info);
+		    //line = (TargetDataLine) AudioSystem.getLine(info);
+			line = (TargetDataLine) AudioSystem.getMixer(availMixer[c]).getLine(info);
 		    line.open(Starter.getFormat());
 		} catch (LineUnavailableException e) {
 			if(Starter.verbose) {
